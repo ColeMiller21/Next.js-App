@@ -1,4 +1,4 @@
-import JobLists from './JobLists';
+import JobList from './JobList';
 import Loader from 'react-loader-spinner';
 import axios from 'axios';
 
@@ -7,8 +7,8 @@ class Form extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            description: "python",
-            cityZip: "new york",
+            description: "",
+            cityZip: "",
             jobs: [],
             loading: false
         }
@@ -39,8 +39,10 @@ class Form extends React.Component {
                 }
                 else {
                     this.state.jobs.push(response.data)
-                    this.setState({ jobs: this.state.jobs[0] })
-                    console.log(this.state.jobs)
+                    this.setState({
+                        jobs: this.state.jobs[0],
+                        loading: false
+                    })
 
                 }
 
@@ -57,7 +59,7 @@ class Form extends React.Component {
                     </div>
                     <div className="input-group mb-3">
                         <div className="col-xs-6">
-                            <input type="text" onChange={this.cityZipChange} value={this.state.cityZip} style={styles.cityInput} className="form-control" placeholder="City Name or Zipcode" aria-label="Username" aria-describedby="basic-addon1" />
+                            <input type="text" onChange={this.cityZipChange} value={this.state.cityZip} style={styles.cityInput} className="form-control" placeholder="City or Zipcode" aria-label="Username" aria-describedby="basic-addon1" />
                         </div>
                         <button type="button" onClick={this.onSubmit} style={styles.buttonStyle} className="btn btn-primary">Search</button>
                     </div>
@@ -74,8 +76,10 @@ class Form extends React.Component {
                     </div> :
                         <div className="container">
                             <ul className="list-group list-group-flush">
-                                {this.state.jobs.map(job => {
-                                    return <JobLists
+                                {this.state.jobs.map((job, i) => {
+
+                                    return <JobList
+                                        key={job.company + i}
                                         company={job.company}
                                         title={job.title}
                                         image={job.company_logo}
@@ -98,7 +102,7 @@ class Form extends React.Component {
 const styles = {
     formContainer: {
         padding: '10px',
-        border: '1px solid black'
+        borderBottom: '1px solid #5bc0de'
     },
     buttonStyle: {
         marginLeft: '20px'
