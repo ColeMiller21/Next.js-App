@@ -25,4 +25,3 @@
 * [Next.js](https://nextjs.org/)
 
 
-Project Link : [Deployed on Github Pages]()
